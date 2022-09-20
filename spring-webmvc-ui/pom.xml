@@ -19,7 +19,14 @@
 
 	</properties>
 
+
 	<dependencies>
+		<dependency>
+			<groupId>com.github.thofis.hangman</groupId>
+			<artifactId>gamelogic</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
