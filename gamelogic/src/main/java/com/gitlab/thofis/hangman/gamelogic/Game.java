@@ -20,11 +20,7 @@ public class Game {
 	}
 
 	private String hide(String searchterm) {
-		var hiddenterm = "";
-		for (int i = 0; i < searchterm.length(); i++) {
-			hiddenterm += HIDDEN_CHARACTER;
-		}
-		return hiddenterm;
+		return HIDDEN_CHARACTER.repeat(searchterm.length());
 	}
 
 	public int getRemainingGuesses() {
@@ -44,6 +40,10 @@ public class Game {
 			}
 		}
 		hiddenterm = term.toString();
-		return !oldTerm.equals(hiddenterm);
+		boolean correctGuess = !oldTerm.equals(hiddenterm);
+		if (!correctGuess) {
+			remainingGuesses--;
+		}
+		return correctGuess;
 	}
 }

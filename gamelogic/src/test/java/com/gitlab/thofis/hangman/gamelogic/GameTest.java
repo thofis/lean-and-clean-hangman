@@ -12,6 +12,7 @@ public class GameTest {
 
 	private Game game;
 
+
 	@BeforeEach
 	void before() {
 		game = new Game(SEARCHTERM);
