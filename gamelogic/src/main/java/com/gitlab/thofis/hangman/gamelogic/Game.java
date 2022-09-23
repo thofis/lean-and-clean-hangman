@@ -1,26 +1,49 @@
 package com.gitlab.thofis.hangman.gamelogic;
 
+import static com.gitlab.thofis.hangman.gamelogic.Game.State.*;
+
 public class Game {
+
+	private State state;
+
+	public State getState() {
+		return state;
+	}
+
+	public boolean isOver() {
+		return state.gameOver();
+	}
+
+	public enum State {
+		LOST,
+		WON,
+		IN_PROGRESS;
+
+		boolean gameOver() {
+			return  ordinal() == WON.ordinal() || ordinal() == LOST.ordinal();
+		}
+	}
 
 	static final int INITIAL_NUMBER_OF_GUESSES = 6;
 
-	static final String HIDDEN_CHARACTER = "*";
+	static final char HIDDEN_CHARACTER = '*';
 
-	public final String searchterm;
+	public final String searchTerm;
 
-	private String hiddenterm;
+	private String hiddenTerm;
 
 
 	public int remainingGuesses;
 
 	public Game(String searchterm) {
-		this.searchterm = searchterm;
-		this.hiddenterm = hide(searchterm);
+		this.searchTerm = searchterm.toLowerCase();
+		this.hiddenTerm = hide(searchterm);
 		this.remainingGuesses = INITIAL_NUMBER_OF_GUESSES;
+		this.state = IN_PROGRESS;
 	}
 
 	private String hide(String searchterm) {
-		return HIDDEN_CHARACTER.repeat(searchterm.length());
+		return Character.toString(HIDDEN_CHARACTER).repeat(searchterm.length());
 	}
 
 	public int getRemainingGuesses() {
@@ -28,22 +51,36 @@ public class Game {
 	}
 
 	public String getHiddenTerm() {
-		return hiddenterm;
+		return hiddenTerm;
 	}
 
 	public boolean guess(char character) {
-		String oldTerm = hiddenterm;
-		StringBuilder term = new StringBuilder(hiddenterm);
-		for (int i = 0; i < searchterm.length(); i++) {
-			if (searchterm.charAt(i) == character) {
-				term.setCharAt(i, character);
+		String oldTerm = hiddenTerm;
+		StringBuilder term = new StringBuilder(hiddenTerm);
+		for (int i = 0; i < searchTerm.length(); i++) {
+			if (searchTerm.charAt(i) == Character.toLowerCase(character)) {
+				term.setCharAt(i, Character.toLowerCase(character));
 			}
 		}
-		hiddenterm = term.toString();
-		boolean correctGuess = !oldTerm.equals(hiddenterm);
+		hiddenTerm = term.toString();
+		boolean correctGuess = !oldTerm.equals(hiddenTerm);
 		if (!correctGuess) {
 			remainingGuesses--;
 		}
+		checkForWin();
+		checkForLost();
 		return correctGuess;
+	}
+
+	private void checkForLost() {
+		if (remainingGuesses == 0) {
+			state = LOST;
+		}
+	}
+
+	private void checkForWin() {
+		if (searchTerm.equals(hiddenTerm)) {
+			state = WON;
+		}
 	}
 }
