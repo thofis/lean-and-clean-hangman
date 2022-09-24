@@ -6,26 +6,18 @@ public class Game {
 
 	private State state;
 
-	public State getState() {
-		return state;
-	}
-
-	public boolean isOver() {
-		return state.gameOver();
-	}
-
 	public enum State {
 		LOST,
 		WON,
 		IN_PROGRESS;
 
 		boolean gameOver() {
-			return  ordinal() == WON.ordinal() || ordinal() == LOST.ordinal();
+			return equals(WON) || equals(LOST);
 		}
+
+
 	}
-
 	static final int INITIAL_NUMBER_OF_GUESSES = 6;
-
 	static final char HIDDEN_CHARACTER = '*';
 
 	public final String searchTerm;
@@ -40,10 +32,6 @@ public class Game {
 		this.hiddenTerm = hide(searchterm);
 		this.remainingGuesses = INITIAL_NUMBER_OF_GUESSES;
 		this.state = IN_PROGRESS;
-	}
-
-	private String hide(String searchterm) {
-		return Character.toString(HIDDEN_CHARACTER).repeat(searchterm.length());
 	}
 
 	public int getRemainingGuesses() {
@@ -72,6 +60,14 @@ public class Game {
 		return correctGuess;
 	}
 
+	public State getState() {
+		return state;
+	}
+
+	public boolean isOver() {
+		return state.gameOver();
+	}
+
 	private void checkForLost() {
 		if (remainingGuesses == 0) {
 			state = LOST;
@@ -82,5 +78,9 @@ public class Game {
 		if (searchTerm.equals(hiddenTerm)) {
 			state = WON;
 		}
+	}
+
+	private String hide(String searchterm) {
+		return Character.toString(HIDDEN_CHARACTER).repeat(searchterm.length());
 	}
 }

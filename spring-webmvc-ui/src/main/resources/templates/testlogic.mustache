@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang = "en">
+<head>
+    <meta charset = "UTF-8">
+    <meta name = "viewport"
+          content = "width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv = "X-UA-Compatible"
+          content = "ie=edge">
+    <title>Simple Test UI for the game logic.</title>
+</head>
+<body>
+<p>
+<form action = "/test/start"
+      method = "post">
+    <input type = "text"
+           value = "{{game.searchTerm}}"
+           name = "searchTerm">
+    <input type = "submit"
+           value = "Start">
+</form>
+</p>
+<p>
+<form action = "/test/guess" method="post">
+    <input type = "text" name="character" maxlength="1">
+    <input type = "submit" value="Guess">
+</form>
+</p>
+<p>
+    <h1>{{game.hiddenTerm}}</h1>
+</p>
+<p>
+    <h3>Guesses Left: {{game.remainingGuesses}}</h3>
+</p>
+<p>
+    <h3>Game State: {{game.state}}</h3>
+</p>
+</body>
+</html>
